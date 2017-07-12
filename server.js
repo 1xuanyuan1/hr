@@ -14,8 +14,18 @@ const serverInfo =
   `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
 const app = express()
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 
 const template = fs.readFileSync(resolve('./src/index.template.html'), 'utf-8')
+
+// 引入 mongoose 相关模型
+require('./server/models/candidate')
+require('./server/models/candidate-detail')
+require('./server/models/interview')
+
+// 引入 api 路由
+const routes = require('./server/routes/index')
 
 function createRenderer (bundle, options) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
@@ -63,7 +73,15 @@ app.use(favicon('./public/logo.png'))
 app.use('/dist', serve('./dist', true))
 app.use('/public', serve('./public', true))
 app.use('/manifest.json', serve('./manifest.json', true))
-app.use('/service-worker.js', serve('./dist/service-worker.js'))
+// app.use('/service-worker.js', serve('./dist/service-worker.js'))
+
+// body 解析中间件
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+// cookie 解析中间件
+app.use(cookieParser())
+// api 路由
+app.use('/api', routes)
 
 // 1-second microcache.
 // https://www.nginx.com/blog/benefits-of-microcaching-nginx/
