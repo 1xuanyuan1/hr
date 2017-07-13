@@ -2,7 +2,7 @@
   "name": "Vue Server-Side Rendering",
   "short_name": "Vue SSR",
   "icons": [{
-      "src": "/public/logo-120.png",
+      "src": "/public/logo.png",
       "sizes": "120x120",
       "type": "image/png"
     }],

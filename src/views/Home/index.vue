@@ -4,10 +4,9 @@
       <table>
         <tr v-for="item in list">
           <td>{{item.name}}</td>
-          <td>{{item.phone}}</td>
-          <td>{{item.post}}</td>
-          <td>{{item.source}}</td>
-          <td>{{item.create_date}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.name}}</td>
         </tr>
       </table>
     </card>
@@ -22,6 +21,11 @@ export default {
   },
   asyncData ({store}) {
     return store.dispatch('candidate/getList')
+  },
+  mounted () {
+    this.$api.get('candidate/list').then((result) => {
+      console.log(result)
+    })
   },
   computed: {
     list () {

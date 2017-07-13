@@ -7,9 +7,10 @@ import md5 from 'md5'
 // import NProgress from 'nprogress'
 
 const cached = LRU({max: 1000, maxAge: 1000 * 60 * 15})
-const isDev = process.env.NODE_ENV !== 'production'
-if (isDev) {
-  config.baseURL = 'http://localhost:8080/api'
+const port = process.env.PORT || 8080
+const isSer = process.env.VUE_ENV === 'server'
+if (isSer) {
+  config.baseURL = `http://localhost:${port}/api`
 }
 var api = axios.create(config)
 // if (store && store.state.user.userinfo && store.state.user.userinfo.token != null) {
