@@ -125,7 +125,7 @@ function render (req, res) {
   }
 
   const context = {
-    title: 'Vue SSR', // default title
+    title: 'HR小工具', // default title
     url: req.url
   }
   renderer.renderToString(context, (err, html) => {

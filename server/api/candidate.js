@@ -2,6 +2,13 @@ var mongoose = require('../mongoose')
 
 var Candidate = mongoose.model('Candidate')
 
+const general = require('./general')
+const list = general.list
+
+exports.list = (req, res) => {
+  list(req, res, Candidate)
+}
+
 exports.insert = (req, res) => {
   var {name, phone, post, source} = req.body
   if (!name || !phone || !post || !source) {

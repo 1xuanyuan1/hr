@@ -14,6 +14,8 @@ router.get('/test', (req, res) => {
   })
 })
 
+// 获取候选人列表
+router.get('/candidate/list', candidate.list)
 // 添加候选人
 router.post('/candidate/insert', multipartMiddleware, candidate.insert)
 

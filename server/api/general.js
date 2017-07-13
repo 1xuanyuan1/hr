@@ -14,7 +14,7 @@ exports.list = (req, res, mongoDB, sort) => {
   page = parseInt(page, 10)
   limit = parseInt(limit, 10)
   if (!page) page = 1
-  if (!limit) limit = 10
+  if (!limit) limit = 50
   var skip = (page - 1) * limit
   Promise.all([
     mongoDB.find().sort(sort).skip(skip).limit(limit).exec(),
