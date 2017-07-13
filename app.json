@@ -1,0 +1,10 @@
+{
+  "apps": [{
+    "name": "hr",
+    "script": "server.js",
+    "env": {
+      "NODE_ENV": "production",
+      "PORT": 8082
+    }
+  }]
+}
