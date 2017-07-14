@@ -1,5 +1,3 @@
 <template>
-  <div>
-    候选人
-  </div>
+   <router-view ></router-view>
 </template>

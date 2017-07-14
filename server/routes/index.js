@@ -22,6 +22,10 @@ router.post('/candidate/insert', multipartMiddleware, candidate.insert)
 // 候选人自填简历
 router.post('/candidateDetail/insert', multipartMiddleware, candidateDetail.insert)
 
+// 获取各个类型的邀约数量
+router.get('/interview/eachCount', interview.eachCount)
+// 获取邀约列表
+router.get('/interview/list', interview.list)
 // 增加邀约
 router.post('/interview/insert', multipartMiddleware, interview.insert)
 

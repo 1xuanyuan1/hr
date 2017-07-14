@@ -49,7 +49,7 @@ export default {
   computed: {
     activeMenu () {
       if (this.$route.name === 'Home') return ''
-      return this.$route.name.toLocaleLowerCase()
+      return this.$route.path.split('/')[1]
     }
   }
 }

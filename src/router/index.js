@@ -30,8 +30,18 @@ export function createRouter () {
       },
       {
         path: '/candidate',
-        name: 'Candidate',
-        component: lazyLoading('Candidate', true)
+        component: lazyLoading('Candidate', true),
+        children: [
+          {
+            path: '',
+            name: 'candidate-list',
+            component: lazyLoading('Candidate/list')
+          }, {
+            path: 'add',
+            name: 'candidate-add',
+            component: lazyLoading('Candidate/add')
+          }
+        ]
       },
       {
         path: '/talent',

@@ -4,12 +4,12 @@ import config from './config.js'
 // import store from '../store'
 import LRU from 'lru-cache'
 import md5 from 'md5'
-// import NProgress from 'nprogress'
+import NProgress from 'nprogress'
 
 const cached = LRU({max: 1000, maxAge: 1000 * 60 * 15})
 const port = process.env.PORT || 8080
-const isSer = process.env.VUE_ENV === 'server'
-if (isSer) {
+const isServer = process.env.VUE_ENV === 'server'
+if (isServer) {
   config.baseURL = `http://localhost:${port}/api`
 }
 var api = axios.create(config)
@@ -18,17 +18,17 @@ var api = axios.create(config)
 // }
 
 api.interceptors.request.use(config => {
-  // NProgress.start()
+  !isServer && NProgress.start()
   return config
 }, error => {
   return Promise.reject(error)
 })
 
 api.interceptors.response.use(response => {
-  // NProgress.done()
+  !isServer && NProgress.done()
   return response.data
 }, error => {
-  // NProgress.done()
+  !isServer && NProgress.done()
   // let err = error.response.errorMessage
   return Promise.reject(error)
 })

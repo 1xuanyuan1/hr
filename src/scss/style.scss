@@ -34,11 +34,16 @@ html,body {
   transform: translateX(10px);
   opacity: 0;
 }
-
+a {
+  color: $active-color;
+}
 input,textarea,.input,.textarea{
   &:focus,&.is-focused,&:active,&.is-active{
     outline: none;
     border-color: $active-color;
+    &.is-danger{
+      border-color: $red;
+    }
   }
   /* 将输入框的提示内容颜色改为白色 */
   &.white:-moz-placeholder{
@@ -94,6 +99,7 @@ input,textarea,.input,.textarea{
     box-shadow: 0 1px 0px rgba(10, 10, 10, 0.1);
     margin: 0 $base-padding;
     align-items: center;
+    position: relative;
     .image img{
       border-radius: $base-radius;
     }
@@ -105,6 +111,10 @@ input,textarea,.input,.textarea{
       &:hover{
         color: $active-color;
       }
+    }
+    .card-head-right{
+      position: absolute;
+      right: 20px;
     }
   }
   .card-content{
