@@ -6,7 +6,7 @@ const general = require('./general')
 const list = general.list
 
 exports.list = (req, res) => {
-  list(req, res, Candidate, req.query)
+  list(req, res, Candidate, {where: req.body})
 }
 
 exports.insert = (req, res) => {

@@ -20,11 +20,20 @@ const actions = {
     })
   },
   getList ({ commit }, param = {}) {
-    return api.get('interview/list', param).then((result) => {
+    return api.post('interview/list', param).then((result) => {
       if (param.status) {
         commit(types.GET_INTERVIEW_ONE_LIST, {data: result.data, status: param.status})
       } else {
         commit(types.GET_INTERVIEW_LIST, result.data)
+      }
+    })
+  },
+  getListMore ({ commit }, {param, page}) {
+    return api.post(`interview/list?page=${page}`, param).then((result) => {
+      if (param.status) {
+        commit(types.GET_INTERVIEW_ONE_LIST_MORE, {data: result.data, status: param.status})
+      } else {
+        commit(types.GET_INTERVIEW_LIST_MORE, result.data)
       }
     })
   }
@@ -41,10 +50,34 @@ const mutations = {
   [types.GET_INTERVIEW_LIST] (state, data) {
     state.data = data
   },
+  [types.GET_INTERVIEW_LIST_MORE] (state, data) {
+    state.data = {
+      hasNext: data.hasNext,
+      hasPrev: data.hasPrev,
+      total: data.total,
+      list: [
+        ...state.data.list,
+        ...data.list
+      ]
+    }
+  },
   [types.GET_INTERVIEW_ONE_LIST] (state, { status, data }) {
     if (!status) return
     state[status] = data
     state.eachCount[status] = data.total
+  },
+  [types.GET_INTERVIEW_ONE_LIST_MORE] (state, { status, data }) {
+    if (!status) return
+    state.eachCount[status] = data.total
+    state[status] = {
+      hasNext: data.hasNext,
+      hasPrev: data.hasPrev,
+      total: data.total,
+      list: [
+        ...state[status].list,
+        ...data.list
+      ]
+    }
   }
 }
 

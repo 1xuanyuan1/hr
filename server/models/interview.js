@@ -3,7 +3,7 @@ var Schema = mongoose.Schema
 var Promise = require('bluebird')
 
 /**
- * candidate_id:
+ * candidate:
  * status: pending // 面试状态  1:待面试 2:面试通过 3:面试不通过 4:进入人才库
  * interview_date: 2017-07-15 15:00:00 // 面试时间
  * interviewer: 戴文俊 // 面试官
@@ -12,7 +12,10 @@ var Promise = require('bluebird')
  */
 const statuses = ['pending', 'success', 'fail', 'talent']
 var InterviewSchema = new Schema({
-  candidate_id: String,
+  candidate: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Candidate'
+  },
   status: {
     type: String,
     enum: statuses,

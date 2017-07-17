@@ -7,8 +7,7 @@
  * @param  {[type]} sort    排序
  * @return {[type]}         [description]
  */
-exports.list = (req, res, mongoDB, where = {}, sort) => {
-  sort = sort || '-_id'
+exports.list = (req, res, mongoDB, {where = {}, sort = '-_id', populate = ''}) => {
   var limit = req.query.limit
   var page = req.query.page
   page = parseInt(page, 10)
@@ -17,7 +16,7 @@ exports.list = (req, res, mongoDB, where = {}, sort) => {
   if (!limit) limit = 20
   var skip = (page - 1) * limit
   Promise.all([
-    mongoDB.find(where).sort(sort).skip(skip).limit(limit).exec(),
+    mongoDB.find(where).populate(populate).sort(sort).skip(skip).limit(limit).exec(),
     mongoDB.find(where).countAsync()
   ]).then(result => {
     var total = result[1]

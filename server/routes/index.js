@@ -15,7 +15,7 @@ router.get('/test', (req, res) => {
 })
 
 // 获取候选人列表
-router.get('/candidate/list', candidate.list)
+router.post('/candidate/list', multipartMiddleware, candidate.list)
 // 添加候选人
 router.post('/candidate/insert', multipartMiddleware, candidate.insert)
 
@@ -25,9 +25,11 @@ router.post('/candidateDetail/insert', multipartMiddleware, candidateDetail.inse
 // 获取各个类型的邀约数量
 router.get('/interview/eachCount', interview.eachCount)
 // 获取邀约列表
-router.get('/interview/list', interview.list)
+router.post('/interview/list', multipartMiddleware, interview.list)
 // 增加邀约
 router.post('/interview/insert', multipartMiddleware, interview.insert)
+// 增加邀约
+router.post('/interview/updateStatus', multipartMiddleware, interview.updateStatus)
 
 router.get('*', (req, res) => {
   res.json({

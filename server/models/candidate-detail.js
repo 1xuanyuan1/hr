@@ -2,7 +2,7 @@ var mongoose = require('../mongoose')
 var Schema = mongoose.Schema
 var Promise = require('bluebird')
 /**
- * candidate_id:
+ * candidate:
  * name: 张三
  * department: 技术部 // 应聘部门
  * post: 前端 // 应聘岗位
@@ -22,7 +22,10 @@ var Promise = require('bluebird')
  * create_date: 2017-07-12T02:02:07.514Z // 创建时间
  */
 var CandidateDetailSchema = new Schema({
-  candidate_id: String,
+  candidate: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Candidate'
+  },
   name: String,
   department: String, // 应聘部门
   post: String, // 应聘岗位

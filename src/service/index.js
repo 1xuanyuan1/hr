@@ -1,7 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
 import config from './config.js'
-// import store from '../store'
 import LRU from 'lru-cache'
 import md5 from 'md5'
 import NProgress from 'nprogress'
@@ -13,9 +12,6 @@ if (isServer) {
   config.baseURL = `http://localhost:${port}/api`
 }
 var api = axios.create(config)
-// if (store && store.state.user.userinfo && store.state.user.userinfo.token != null) {
-//   api.defaults.headers.common['x-auth-token'] = store.state.user.userinfo.token
-// }
 
 api.interceptors.request.use(config => {
   !isServer && NProgress.start()
@@ -75,16 +71,16 @@ export default {
     })
   },
   get (url, params) {
-    const key = md5(url + JSON.stringify(params))
-    if (cached.has(key)) {
-      return Promise.resolve(cached.get(key))
-    }
+    // const key = md5(url + JSON.stringify(params))
+    // if (cached.has(key)) {
+    //   return Promise.resolve(cached.get(key))
+    // }
     return api({
       method: 'get',
       url,
       params
     }).then(res => {
-      cached.set(key, res)
+      // cached.set(key, res)
       return res
     })
   }
