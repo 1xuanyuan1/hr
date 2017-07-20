@@ -4,6 +4,11 @@
 export const CHANGE_LANG = 'CHANGE_LANG'
 
 /**
+ * 获取首页信息
+ */
+export const GET_HOME_INFO = 'GET_HOME_INFO'
+
+/**
  * 候选人
  */
 // 获取候选人列表

@@ -15,7 +15,7 @@ const state = () => ({
 
 const actions = {
   getEachCount ({ commit }, param = {}) {
-    return api.get('interview/eachCount', param).then((result) => {
+    return api.post('interview/eachCount', param).then((result) => {
       commit(types.GET_INTERVIEW_EACHCOUNT, result.data)
     })
   },

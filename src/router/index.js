@@ -40,6 +40,10 @@ export function createRouter () {
             path: 'add',
             name: 'candidate-add',
             component: lazyLoading('Candidate/add')
+          }, {
+            path: 'detail',
+            name: 'candidate-detail',
+            component: lazyLoading('Candidate/detail')
           }
         ]
       },

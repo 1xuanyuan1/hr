@@ -24,7 +24,7 @@
       </div>
       <div class="asm-td asm-grow-3">
         <template v-if="status === 'pending'">
-          <a @click="operation(item._id, 'success')">通过</a>&nbsp;/&nbsp;<a @click="operation(item._id, 'fail')">不通过</a>
+          <a @click="operation(item._id)">处理</a>
         </template>
         <template v-else>
           {{item.evaluation || '---'}}
@@ -35,35 +35,61 @@
       <loading></loading>
     </div>
   </div>
-  <card-modal ref='evaluationModal' :visible="false" title="评价" @click="addEvaluation">
+  <card-modal ref='evaluationModal' :visible="false" title="处理" @click="addEvaluation">
       <validate-input 
         name="评价"
         placeholder="请输入评价"
         rules="required" 
-        :value.sync="evaluation" 
+        :value.sync="param.evaluation" 
         @keyup.enter.native="addEvaluation"
-        @update="value => evaluation = value"/>
+        @update="value => $set(param, 'evaluation', value)"/>
+        <div class="field is-horizontal" style="width: 80%;">
+          <div class="field-label is-normal">
+            <label class="label">处理</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select v-model="param.status">
+                    <option value="success">通过</option>
+                    <option value="fail">不通过</option>
+                    <option value="talent">进人才库</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
   </card-modal>
 </div>
 </template>
 <script>
-import { CardModal, Loading } from 'components/Common'
+import { CardModal, Loading, ValidateInput } from 'components/Common'
 import { mapGetters } from 'vuex'
 export default {
   props: {
     status: {
       type: String,
       default: 'pending'
+    },
+    info: {
+      type: Array,
+      default: () => []
     }
   },
   components: {
     CardModal,
-    Loading
+    Loading,
+    ValidateInput
   },
   computed: {
     ...mapGetters({
       string: 'global/string'
     }),
+    hasInfo () { // 是否有传入相关数据
+      return this.info.length > 0
+    },
     data () {
       return this.$store.state.interview[this.status]
     },
@@ -71,6 +97,7 @@ export default {
       return this.data.hasNext
     },
     list () {
+      if (this.hasInfo) return this.info
       return this.data.list || []
     }
   },
@@ -83,14 +110,15 @@ export default {
         'interviewer'
       ],
       isLoading: false,
-      page: 1
+      page: 1,
+      param: {}
     }
   },
   mounted () {
-    window.addEventListener('scroll', this.handleScroll, false)
+    !this.hasInfo && window.addEventListener('scroll', this.handleScroll, false)
   },
   beforeDestroy () {
-    window.removeEventListener('scroll', this.handleScroll, false)
+    !this.hasInfo && window.removeEventListener('scroll', this.handleScroll, false)
   },
   methods: {
     handleScroll () {
@@ -106,21 +134,24 @@ export default {
         })
       }
     },
-    operation (id, status) {
-      this.$api.post('interview/updateStatus', {id, status}).then((req) => {
+    operation (id) {
+      this.param = {
+        id,
+        status: 'success',
+        evaluation: ''
+      }
+      this.$refs.evaluationModal.open()
+    },
+    addEvaluation () {
+      this.$api.post('interview/updateStatus', this.param).then((req) => {
         this.$openMessage({title: req.message})
         Promise.all([
           this.$store.dispatch('interview/getList', {status: this.status}),
           this.$store.dispatch('interview/getEachCount')
         ])
+        this.$refs.evaluationModal.close()
       })
-    },
-    addEvaluation () {
-      console.log('addEvaluation')
     }
   }
 }
 </script>
-<style lang="scss">
-@import './style.scss';
-</style>

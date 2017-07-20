@@ -8,6 +8,7 @@ var Promise = require('bluebird')
  * source: 拉勾
  * invitation: false // 是否已经邀约了
  * create_date: 2017-07-12T02:02:07.514Z // 创建时间
+ * update_date: 2017-07-12T02:02:07.514Z //更新时间
  */
 var CandidateSchema = new Schema({
   name: String,
@@ -21,7 +22,13 @@ var CandidateSchema = new Schema({
   create_date: {
     type: Date,
     default: Date.now
+  }, // 创建时间
+  update_date: {
+    type: Date,
+    default: Date.now
   }
+}, {
+  timestamps: { createdAt: 'create_date', updatedAt: 'update_date' }
 })
 
 var Candidate = mongoose.model('Candidate', CandidateSchema)

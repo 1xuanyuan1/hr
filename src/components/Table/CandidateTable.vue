@@ -20,7 +20,7 @@
           </template>
         </div>
         <div class="asm-td asm-grow-3">
-          <a @click="openInvite(item._id)">邀约</a>&nbsp;/&nbsp;<a>自填简历</a>
+          <a @click="openInvite(item._id)">邀约</a>&nbsp;/&nbsp;<a @click="showLinkModal(item._id)">自填简历</a>
         </div>
       </div>
       <div class="asm-tr" v-if="isLoading">
@@ -28,13 +28,22 @@
       </div>
     </div>
     <card-modal ref='inviteModal' :visible="false" title="邀约" @click="addInterview">
-      <validate-input 
-        name="面试时间"
-        :placeholder="`请输入面试时间`"
-        rules="required" 
-        :value.sync="interviewDate" 
-        @keyup.enter.native="addInterview"
-        @update="value => interviewDate = value"/>
+      <div class="field is-horizontal" style="width: 80%;">
+        <div class="field-label is-normal">
+          <label class="label">面试时间</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+                <el-date-picker
+                  v-model="interviewDate"
+                  type="datetime"
+                  placeholder="选择面试时间">
+                </el-date-picker>
+            </div>
+          </div>
+        </div>
+      </div>
       <validate-input 
         name="面试官"
         :placeholder="`请输入面试官`"
@@ -43,20 +52,33 @@
         @keyup.enter.native="addInterview"
         @update="value => interviewer = value"/>
     </card-modal>
+    <modal ref="linkModal" :visible="false">
+      <card title="请复制下方列表给候选人">
+        <div class="link-modal-content">
+          <input class="input" :value="link" />
+        </div>
+      </card>
+    </modal>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { CardModal, ValidateInput, Loading } from 'components/Common'
+import { CardModal, ValidateInput, Loading, Modal, Card } from 'components/Common'
 export default {
   props: {
     data: {
       type: Array,
       default: () => []
+    },
+    isHome: { // 是否是首页
+      type: Boolean,
+      default: false
     }
   },
   components: {
     CardModal,
+    Modal,
+    Card,
     ValidateInput,
     Loading
   },
@@ -73,9 +95,21 @@ export default {
         }
       },
       set (item = {}) {
-        this.activeCandidate = item.candidate || ''
+        this.activeCandidate = item.candidate || Date.now()
         this.interviewDate = item.interview_date || ''
         this.interviewer = item.interviewer || ''
+      }
+    },
+    updateAction () {
+      if (this.isHome) {
+        return [
+          this.$store.dispatch('home/getHomeInfo')
+        ]
+      } else {
+        return [
+          this.$store.dispatch('candidate/getList', {invitation: false}),
+          this.$store.dispatch('interview/getEachCount')
+        ]
       }
     }
   },
@@ -88,9 +122,10 @@ export default {
         'source',
         'create_date'
       ],
+      link: '',
       isLoading: false,
       page: 1,
-      interviewDate: '',
+      interviewDate: Date.now(),
       interviewer: '',
       activeCandidate: ''
     }
@@ -105,18 +140,19 @@ export default {
     addInterview () {
       this.$api.post('interview/insert', this.param).then(req => {
         if (req.code === 200) {
-          this.$openMessage({title: '添加成功'})
-          Promise.all([
-            this.$store.dispatch('candidate/getList', {invitation: false}),
-            this.$store.dispatch('interview/getEachCount')
-          ]).then(() => {
+          this.$openMessage({title: '操作成功'})
+          Promise.all(this.updateAction).then(() => {
             this.param = {}
             this.$refs.inviteModal.close()
           })
         } else {
-          this.$openMessage({title: '添加失败', type: 'danger'})
+          this.$openMessage({title: '操作失败', type: 'danger'})
         }
       })
+    },
+    showLinkModal (id) {
+      this.link = 'http://localhost:8080/candidate/detail?id=' + id
+      this.$refs.linkModal.open()
     },
     openInvite (id) {
       this.activeCandidate = id
@@ -138,6 +174,11 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-@import './style.scss';
+<style lang="scss" scoped>
+.el-input__inner{
+  height: 36px;
+}
+.link-modal-content{
+  padding: 20px;
+}
 </style>

@@ -1,5 +1,10 @@
 export default {
   author: '戴文俊',
+  home: {
+    all: '新增候选人',
+    communication: '今日待沟通',
+    pending: '今日待面试'
+  },
   nav: {
     index: '首页',
     candidate: '候选人',

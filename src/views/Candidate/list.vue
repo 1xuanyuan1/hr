@@ -2,6 +2,15 @@
   <div class="container">
     <card title="候选人列表">
       <button class="button is-primary" slot="right" @click="toAdd">添加候选人</button>
+      <div class="block">
+        <span class="demonstration">时间：</span>
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          clearable
+          placeholder="选择日期范围">
+        </el-date-picker>
+      </div>
       <div class="tabs is-centered is-boxed">
         <ul>
           <li v-for="item in menus" :class="{'is-active': item === activeMenu}" @click="changeMenu(item)">
@@ -41,13 +50,31 @@ export default {
       total: 'candidate/total',
       list: 'candidate/list',
       eachCount: 'interview/eachCount'
-    })
+    }),
+    date: {
+      get () {
+        return [this.startTime, this.endTime]
+      },
+      set (val) {
+        if (!val && val.length < 2) return
+        this.startTime = val[0]
+        this.endTime = val[1]
+        if (this.activeMenu === 'communication') {
+          this.updateCandidate()
+        } else {
+          this.changeMenu(this.activeMenu)
+        }
+        this.updateCount()
+      }
+    }
   },
   data () {
     return {
       activeMenu: 'communication',
       menu: ['pending', 'success', 'fail'],
-      menus: ['communication', 'pending', 'success', 'fail']
+      menus: ['communication', 'pending', 'success', 'fail'],
+      startTime: null,
+      endTime: null
     }
   },
   methods: {
@@ -57,19 +84,42 @@ export default {
     changeMenu (item) {
       this.activeMenu = item
       if (item !== 'communication') {
-        this.$store.dispatch('interview/getList', {status: item})
+        let param = {status: item}
+        if (this.startTime && this.endTime) {
+          param['create_date'] = {$gte: this.startTime, $lt: this.endTime}
+        }
+        this.$store.dispatch('interview/getList', param)
       }
+    },
+    updateCandidate () {
+      let param = {invitation: false}
+      if (this.startTime && this.endTime) {
+        param['create_date'] = {$gte: this.startTime, $lt: this.endTime}
+      }
+      this.$store.dispatch('candidate/getList', param)
+    },
+    updateCount () {
+      let param = {}
+      if (this.startTime && this.endTime) {
+        param.startTime = this.startTime
+        param.endTime = this.endTime
+      }
+      this.$store.dispatch('interview/getEachCount', param)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
 .tabs{
-  margin-top: 19px;
+  // margin-top: 19px;
   margin-bottom: 0;
   li{
     transition: all .3s;
   }
+}
+.block{
+  margin-top: 19px;
+  margin-left: 20px;
 }
 </style>
 

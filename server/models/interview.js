@@ -9,6 +9,7 @@ var Promise = require('bluebird')
  * interviewer: 戴文俊 // 面试官
  * evaluation: 水平太差不要 // 评价
  * create_date: 2017-07-12T02:02:07.514Z // 创建时间
+ * update_date: 2017-07-12T02:02:07.514Z //更新时间
  */
 const statuses = ['pending', 'success', 'fail', 'talent']
 var InterviewSchema = new Schema({
@@ -30,7 +31,13 @@ var InterviewSchema = new Schema({
   create_date: {
     type: Date,
     default: Date.now
-  } // 创建时间
+  }, // 创建时间
+  update_date: {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  timestamps: { createdAt: 'create_date', updatedAt: 'update_date' }
 })
 
 var Interview = mongoose.model('Interview', InterviewSchema)

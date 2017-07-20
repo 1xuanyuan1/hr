@@ -8,6 +8,17 @@ var candidateDetail = require('../api/candidate-detail')
 var interview = require('../api/interview')
 
 router.get('/test', (req, res) => {
+  console.log('test - get')
+  console.log(req.query)
+  res.json({
+    code: 200,
+    message: '这是一个测试接口'
+  })
+})
+
+router.post('/test', multipartMiddleware, (req, res) => {
+  console.log('test - post')
+  console.log(req.body)
   res.json({
     code: 200,
     message: '这是一个测试接口'
@@ -23,13 +34,16 @@ router.post('/candidate/insert', multipartMiddleware, candidate.insert)
 router.post('/candidateDetail/insert', multipartMiddleware, candidateDetail.insert)
 
 // 获取各个类型的邀约数量
-router.get('/interview/eachCount', interview.eachCount)
+router.post('/interview/eachCount', multipartMiddleware, interview.eachCount)
 // 获取邀约列表
 router.post('/interview/list', multipartMiddleware, interview.list)
 // 增加邀约
 router.post('/interview/insert', multipartMiddleware, interview.insert)
-// 增加邀约
+// 更新要求状态
 router.post('/interview/updateStatus', multipartMiddleware, interview.updateStatus)
+
+// 获取首页信息
+router.get('/home', interview.home)
 
 router.get('*', (req, res) => {
   res.json({

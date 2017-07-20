@@ -20,6 +20,7 @@ var Promise = require('bluebird')
  * Interests: LOL // 兴趣爱好
  * certificate: 计算级二级证书 // 荣誉证书
  * create_date: 2017-07-12T02:02:07.514Z // 创建时间
+ * update_date: 2017-07-12T02:02:07.514Z //更新时间
  */
 var CandidateDetailSchema = new Schema({
   candidate: {
@@ -45,7 +46,13 @@ var CandidateDetailSchema = new Schema({
   create_date: {
     type: Date,
     default: Date.now
-  } // 创建时间
+  }, // 创建时间
+  update_date: {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  timestamps: { createdAt: 'create_date', updatedAt: 'update_date' }
 })
 
 var CandidateDetail = mongoose.model('CandidateDetail', CandidateDetailSchema)

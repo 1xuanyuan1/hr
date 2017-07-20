@@ -28,6 +28,8 @@ const config = {
 }
 Vue.use(VeeValidate, config)
 
+import { DatePicker } from 'element-ui'
+
 export function createApp () {
     // create router and store instances
   const router = createRouter()
@@ -36,6 +38,7 @@ export function createApp () {
   // sync so that route state is available as part of the store
   sync(store, router)
 
+  Vue.component(DatePicker.name, DatePicker)
   Vue.prototype.$api = api
   Vue.prototype.$dateFormat = utils.dateFormat
   Vue.prototype.$openMessage = utils.openMessage
