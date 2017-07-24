@@ -1,5 +1,5 @@
 <template>
-  <section class="app-main">
+  <section class="app-main" :class="{isAuth: !isAuth}">
     <transition
         name="slide-fade">
       <router-view class="animated"></router-view>
@@ -9,6 +9,11 @@
 
 <script>
 export default {
+  computed: {
+    isAuth () {
+      return !this.$route.meta.auth || false
+    }
+  }
 }
 </script>
 
@@ -19,6 +24,9 @@ export default {
   min-height: $min-height;
   background: $bg-color;
   transform: translate3d(0, 0, 0);
+  &.isAuth{
+    padding: 0;
+  }
 }
 .app-content {
   padding: 0;

@@ -9,12 +9,12 @@ const state = () => ({
 })
 
 const actions = {
-  getList ({ commit }, param = {}) {
-    return api.post('candidate/list', param).then((result) => {
+  getList ({ commit }, {cookie, ...param}) {
+    return api.post('candidate/list', param, cookie).then((result) => {
       commit(types.GET_CANDIDATE_LIST, result.data)
     })
   },
-  getListMore ({ commit }, {param, page}) {
+  getListMore ({ commit }, {page, ...param}) {
     return api.post(`candidate/list?page=${page}`, param).then((result) => {
       commit(types.GET_CANDIDATE_LIST_MORE, result.data)
     })

@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <navbar></navbar>
+    <navbar v-if="isAuth"></navbar>
     <app-main></app-main>
-    <footer-bar></footer-bar>
+    <footer-bar v-if="isAuth"></footer-bar>
   </div>
 </template>
 
@@ -17,6 +17,11 @@ export default {
     Navbar,
     AppMain,
     FooterBar
+  },
+  computed: {
+    isAuth () {
+      return !this.$route.meta.auth || false
+    }
   },
   mounted () {
     // let monitor = new Monitor({id: 'Duke', url: 'http://localhost:8080/api/test'})

@@ -1,11 +1,14 @@
-var express = require('express')
-var router = express.Router()
-var multipart = require('connect-multiparty')
-var multipartMiddleware = multipart()
+const express = require('express')
+const router = express.Router()
+const multipart = require('connect-multiparty')
+const multipartMiddleware = multipart()
 
-var candidate = require('../api/candidate')
-var candidateDetail = require('../api/candidate-detail')
-var interview = require('../api/interview')
+const candidate = require('../api/candidate')
+const candidateDetail = require('../api/candidate-detail')
+const interview = require('../api/interview')
+const user = require('../api/user')
+
+const isUser = require('./is-user')
 
 router.get('/test', (req, res) => {
   console.log('test - get')
@@ -26,24 +29,29 @@ router.post('/test', multipartMiddleware, (req, res) => {
 })
 
 // 获取候选人列表
-router.post('/candidate/list', multipartMiddleware, candidate.list)
+router.post('/candidate/list', isUser, multipartMiddleware, candidate.list)
 // 添加候选人
-router.post('/candidate/insert', multipartMiddleware, candidate.insert)
+router.post('/candidate/insert', isUser, multipartMiddleware, candidate.insert)
 
 // 候选人自填简历
 router.post('/candidateDetail/insert', multipartMiddleware, candidateDetail.insert)
 
 // 获取各个类型的邀约数量
-router.post('/interview/eachCount', multipartMiddleware, interview.eachCount)
+router.post('/interview/eachCount', isUser, multipartMiddleware, interview.eachCount)
 // 获取邀约列表
-router.post('/interview/list', multipartMiddleware, interview.list)
+router.post('/interview/list', isUser, multipartMiddleware, interview.list)
 // 增加邀约
-router.post('/interview/insert', multipartMiddleware, interview.insert)
+router.post('/interview/insert', isUser, multipartMiddleware, interview.insert)
 // 更新要求状态
-router.post('/interview/updateStatus', multipartMiddleware, interview.updateStatus)
+router.post('/interview/updateStatus', isUser, multipartMiddleware, interview.updateStatus)
 
 // 获取首页信息
-router.get('/home', interview.home)
+router.get('/home', isUser, interview.home)
+
+// 用户登录
+router.post('/user/login', multipartMiddleware, user.login)
+// 用户登出
+router.get('/user/logout', isUser, user.logout)
 
 router.get('*', (req, res) => {
   res.json({

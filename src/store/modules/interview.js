@@ -14,13 +14,13 @@ const state = () => ({
 })
 
 const actions = {
-  getEachCount ({ commit }, param = {}) {
-    return api.post('interview/eachCount', param).then((result) => {
+  getEachCount ({ commit }, {cookie, ...param}) {
+    return api.post('interview/eachCount', param, cookie).then((result) => {
       commit(types.GET_INTERVIEW_EACHCOUNT, result.data)
     })
   },
-  getList ({ commit }, param = {}) {
-    return api.post('interview/list', param).then((result) => {
+  getList ({ commit }, {cookie, ...param}) {
+    return api.post('interview/list', param, cookie).then((result) => {
       if (param.status) {
         commit(types.GET_INTERVIEW_ONE_LIST, {data: result.data, status: param.status})
       } else {
@@ -28,7 +28,7 @@ const actions = {
       }
     })
   },
-  getListMore ({ commit }, {param, page}) {
+  getListMore ({ commit }, {page, ...param}) {
     return api.post(`interview/list?page=${page}`, param).then((result) => {
       if (param.status) {
         commit(types.GET_INTERVIEW_ONE_LIST_MORE, {data: result.data, status: param.status})

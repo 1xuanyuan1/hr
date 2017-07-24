@@ -3,7 +3,7 @@
     <card title="今日概况">
       <today-table :data="info"></today-table>
     </card>
-    <card title="今天待沟通" v-if="communication.length > 0">
+    <card title="今天待沟通">
       <candidate-table :data="communication" isHome></candidate-table>
     </card>
     <card title="今日待面试">
@@ -23,8 +23,8 @@ export default {
     CandidateTable,
     InterviewTable
   },
-  asyncData ({store}) {
-    return store.dispatch('home/getHomeInfo')
+  asyncData ({store, cookie}) {
+    return store.dispatch('home/getHomeInfo', {cookie})
   },
   computed: {
     ...mapGetters({

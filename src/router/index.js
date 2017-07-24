@@ -29,6 +29,14 @@ export function createRouter () {
         component: lazyLoading('Home', true)
       },
       {
+        path: '/login',
+        name: 'Login',
+        meta: {
+          auth: true
+        },
+        component: lazyLoading('Home/login')
+      },
+      {
         path: '/candidate',
         component: lazyLoading('Candidate', true),
         children: [
@@ -43,6 +51,9 @@ export function createRouter () {
           }, {
             path: 'detail',
             name: 'candidate-detail',
+            meta: {
+              auth: true
+            },
             component: lazyLoading('Candidate/detail')
           }
         ]
@@ -57,7 +68,7 @@ export function createRouter () {
         name: 'Report',
         component: lazyLoading('Report', true)
       },
-      { path: '*', redirect: '/' }
+      { path: '*', redirect: '/login' }
     ]
   })
 }

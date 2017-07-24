@@ -3,6 +3,8 @@
  */
 export const CHANGE_LANG = 'CHANGE_LANG'
 
+export const SET_COOKIES = 'SET_COOKIES'
+
 /**
  * 获取首页信息
  */

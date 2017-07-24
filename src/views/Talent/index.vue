@@ -14,8 +14,8 @@ export default {
     Card,
     InterviewTable
   },
-  asyncData ({store}) {
-    return store.dispatch('interview/getList', {status: 'talent'})
+  asyncData ({store, cookie}) {
+    return store.dispatch('interview/getList', {status: 'talent', cookie})
   }
 }
 </script>

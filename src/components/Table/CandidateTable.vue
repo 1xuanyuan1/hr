@@ -166,7 +166,7 @@ export default {
       if (bodyHeight - scrollY < 1000 && this.hasNext) {
         this.page++
         this.isLoading = true
-        this.$store.dispatch('candidate/getListMore', {param: {invitation: false}, page: this.page}).then(() => {
+        this.$store.dispatch('candidate/getListMore', {invitation: false, page: this.page}).then(() => {
           this.isLoading = false
         })
       }

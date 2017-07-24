@@ -75,7 +75,7 @@ export default {
     },
     info: {
       type: Array,
-      default: () => []
+      default: () => null
     }
   },
   components: {
@@ -88,7 +88,7 @@ export default {
       string: 'global/string'
     }),
     hasInfo () { // 是否有传入相关数据
-      return this.info.length > 0
+      return this.info != null
     },
     data () {
       return this.$store.state.interview[this.status]
@@ -129,7 +129,7 @@ export default {
       if (bodyHeight - scrollY < 1000 && this.hasNext) {
         this.page++
         this.isLoading = true
-        this.$store.dispatch('interview/getListMore', {param: {status: this.status}, page: this.page}).then(() => {
+        this.$store.dispatch('interview/getListMore', {status: this.status, page: this.page}).then(() => {
           this.isLoading = false
         })
       }

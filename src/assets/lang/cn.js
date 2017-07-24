@@ -1,5 +1,9 @@
 export default {
   author: '戴文俊',
+  login: {
+    username: '账号',
+    password: '密码'
+  },
   home: {
     all: '新增候选人',
     communication: '今日待沟通',

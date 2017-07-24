@@ -38,10 +38,10 @@ export default {
     CandidateTable,
     InterviewTable
   },
-  asyncData ({store}) {
+  asyncData ({store, cookie}) {
     return Promise.all([
-      store.dispatch('candidate/getList', {invitation: false}),
-      store.dispatch('interview/getEachCount')
+      store.dispatch('candidate/getList', {invitation: false, cookie}),
+      store.dispatch('interview/getEachCount', {cookie})
     ])
   },
   computed: {

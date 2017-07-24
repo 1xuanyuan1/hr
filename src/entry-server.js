@@ -10,6 +10,11 @@ export default context => {
     const s = isDev && Date.now()
     const { app, router, store } = createApp()
 
+    // store.dispatch('global/setCookies', context.cookies)
+    let cookie = ''
+    for (let [key, val] of Object.entries(context.cookies)) {
+      cookie += `${key}=${val};`
+    }
     // set server-side router's location
     router.push(context.url)
 
@@ -25,7 +30,14 @@ export default context => {
         if (Component.asyncData) {
           return Component.asyncData({
             store,
-            route: router.currentRoute
+            route: router.currentRoute,
+            cookie
+          }).catch((err) => {
+            if (err && err.code === -400) { // 若未登录则跳到登录页
+              router.push('/login')
+            } else { // 其他错误直接抛出异常
+              reject(err)
+            }
           })
         }
       })).then(() => {

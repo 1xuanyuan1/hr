@@ -9,8 +9,8 @@ const state = () => ({
 })
 
 const actions = {
-  getHomeInfo ({ commit }) {
-    return api.get('home').then(req => {
+  getHomeInfo ({ commit }, {cookie}) {
+    return api.get('home', {}, cookie).then(req => {
       commit(types.GET_HOME_INFO, req.data)
     })
   }

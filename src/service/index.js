@@ -1,11 +1,11 @@
 import axios from 'axios'
 import qs from 'qs'
 import config from './config.js'
-import LRU from 'lru-cache'
-import md5 from 'md5'
+// import LRU from 'lru-cache'
+// import md5 from 'md5'
 import NProgress from 'nprogress'
 
-const cached = LRU({max: 1000, maxAge: 1000 * 60 * 15})
+// const cached = LRU({max: 1000, maxAge: 1000 * 60 * 15})
 const port = process.env.PORT || 8080
 const isServer = process.env.VUE_ENV === 'server'
 if (isServer) {
@@ -22,7 +22,11 @@ api.interceptors.request.use(config => {
 
 api.interceptors.response.use(response => {
   !isServer && NProgress.done()
-  return response.data
+  if (response.data.code !== -400) {
+    return response.data
+  } else {
+    return Promise.reject(response.data)
+  }
 }, error => {
   !isServer && NProgress.done()
   // let err = error.response.errorMessage
@@ -30,11 +34,13 @@ api.interceptors.response.use(response => {
 })
 
 export default {
-  post (url, params) {
+  post (url, params, cookie = '') {
+    let headers = isServer ? {cookie} : {}
     return api({
       method: 'post',
       url,
-      data: params
+      data: params,
+      headers
     })
   },
   postText (url, params) {
@@ -70,15 +76,17 @@ export default {
       a.click()
     })
   },
-  get (url, params) {
+  get (url, params, cookie = '') {
     // const key = md5(url + JSON.stringify(params))
     // if (cached.has(key)) {
     //   return Promise.resolve(cached.get(key))
     // }
+    let headers = isServer ? {cookie} : {}
     return api({
       method: 'get',
       url,
-      params
+      params,
+      headers
     }).then(res => {
       // cached.set(key, res)
       return res
