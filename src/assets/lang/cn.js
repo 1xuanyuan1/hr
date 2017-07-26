@@ -9,6 +9,11 @@ export default {
     communication: '今日待沟通',
     pending: '今日待面试'
   },
+  report: {
+    all: '新增候选人',
+    success: '面试通过',
+    talent: '人才库'
+  },
   nav: {
     index: '首页',
     candidate: '候选人',

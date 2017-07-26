@@ -6,10 +6,12 @@ import candidate from './candidate'
 import interview from './interview'
 
 import home from './home'
+import report from './report'
 
 export default {
   global,
   candidate,
   interview,
-  home
+  home,
+  report
 }

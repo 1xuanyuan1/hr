@@ -6,6 +6,7 @@ const multipartMiddleware = multipart()
 const candidate = require('../api/candidate')
 const interview = require('../api/interview')
 const user = require('../api/user')
+const report = require('../api/report')
 
 const isUser = require('./is-user')
 
@@ -47,6 +48,9 @@ router.post('/interview/updateStatus', isUser, multipartMiddleware, interview.up
 
 // 获取首页信息
 router.get('/home', isUser, interview.home)
+
+// 获取首页信息
+router.get('/report/info', isUser, report.info)
 
 // 用户登录
 router.post('/user/login', multipartMiddleware, user.login)

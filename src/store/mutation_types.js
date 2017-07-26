@@ -11,6 +11,11 @@ export const SET_COOKIES = 'SET_COOKIES'
 export const GET_HOME_INFO = 'GET_HOME_INFO'
 
 /**
+ * 获取报告信息
+ */
+export const GET_REPORT_INFO = 'GET_REPORT_INFO'
+
+/**
  * 候选人
  */
 // 获取候选人列表
