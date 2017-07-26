@@ -20,7 +20,9 @@
           </template>
         </div>
         <div class="asm-td asm-grow-3">
-          <a @click="openInvite(item._id)">邀约</a>&nbsp;/&nbsp;<a @click="showLinkModal(item._id)">自填简历</a>
+          <a @click="openInvite(item._id)">邀约</a>&nbsp;/&nbsp;
+          <a @click="showDetail(item._id)" v-if="item.detail">查看简历</a>
+          <a @click="showLinkModal(item._id)" v-else>自填简历</a>
         </div>
       </div>
       <div class="asm-tr" v-if="isLoading">
@@ -151,8 +153,11 @@ export default {
       })
     },
     showLinkModal (id) {
-      this.link = 'http://localhost:8080/candidate/detail?id=' + id
+      this.link = `http://${process.env.NODE_ENV === 'production' ? 'hr.topasm.com' : 'localhost:8080'}/candidate/detail/${id}`
       this.$refs.linkModal.open()
+    },
+    showDetail (id) {
+      this.$router.push({name: 'candidate-show-detail', params: {id}})
     },
     openInvite (id) {
       this.activeCandidate = id

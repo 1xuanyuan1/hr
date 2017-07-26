@@ -33,5 +33,23 @@ export default {
     post: '面试岗位',
     interview_date: '面试时间',
     interviewer: '面试官'
+  },
+  candidatedetails: {
+    name: '姓名',
+    department: '应聘部门',
+    post: '应聘职务',
+    gender: '性别',
+    phone: '电话',
+    native_place: '籍贯',
+    nation: '民族',
+    birthday: '出生年月',
+    id_card: '身份证',
+    education: '学历',
+    political: '政治面貌',
+    marital: '婚姻状况',
+    address: '现在住址',
+    language: '外语语种及程度',
+    Interests: '兴趣爱好',
+    certificate: '其他荣誉证书'
   }
 }

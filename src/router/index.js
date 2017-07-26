@@ -49,12 +49,16 @@ export function createRouter () {
             name: 'candidate-add',
             component: lazyLoading('Candidate/add')
           }, {
-            path: 'detail',
+            path: 'detail/:id',
             name: 'candidate-detail',
             meta: {
               auth: true
             },
             component: lazyLoading('Candidate/detail')
+          }, {
+            path: 'showDetail/:id',
+            name: 'candidate-show-detail',
+            component: lazyLoading('Candidate/showDetail')
           }
         ]
       },

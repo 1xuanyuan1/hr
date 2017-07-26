@@ -4,9 +4,25 @@ var Candidate = mongoose.model('Candidate')
 
 const general = require('./general')
 const list = general.list
+const item = general.item
 
 exports.list = (req, res) => {
   list(req, res, Candidate, {where: req.body})
+}
+
+exports.item = (req, res) => {
+  item(req, res, Candidate)
+}
+
+exports.setDetail = (req, res) => {
+  let { id } = req.query
+  let detail = req.body
+  Candidate.update({'_id': id}, {$set: {detail}}).exec().then(result => {
+    res.json({
+      code: 200,
+      message: '添加候选人奖励详情成功'
+    })
+  })
 }
 
 exports.insert = (req, res) => {

@@ -6,7 +6,7 @@
     <div class="field-body">
       <div class="field">
         <div class="control has-icons-right">
-          <input class="input" :class="{'is-danger': errors.has(name)}" @focusout="focusoutValue($event.target.value)" @input="updateValue($event.target.value)"  :name="name" type="text" :value="value" :placeholder="placeholder" v-validate="rules">
+          <input class="input" :readonly="readonly" :class="{'is-danger': errors.has(name)}" @focusout="focusoutValue($event.target.value)" @input="updateValue($event.target.value)"  :name="name" type="text" :value="value" :placeholder="placeholder" v-validate="rules">
           <span class="icon is-small is-right" v-if="errors.has(name)">
             <i class="fa fa-warning"></i>
           </span>
@@ -19,6 +19,10 @@
 <script>
 export default {
   props: {
+    readonly: {
+      type: Boolean,
+      default: false
+    },
     placeholder: {
       type: String,
       default: ''

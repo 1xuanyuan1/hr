@@ -4,7 +4,6 @@ const multipart = require('connect-multiparty')
 const multipartMiddleware = multipart()
 
 const candidate = require('../api/candidate')
-const candidateDetail = require('../api/candidate-detail')
 const interview = require('../api/interview')
 const user = require('../api/user')
 
@@ -32,9 +31,10 @@ router.post('/test', multipartMiddleware, (req, res) => {
 router.post('/candidate/list', isUser, multipartMiddleware, candidate.list)
 // 添加候选人
 router.post('/candidate/insert', isUser, multipartMiddleware, candidate.insert)
-
 // 候选人自填简历
-router.post('/candidateDetail/insert', multipartMiddleware, candidateDetail.insert)
+router.post('/candidate/setDetail', multipartMiddleware, candidate.setDetail)
+// 查看候选人信息
+router.get('/candidate/item', multipartMiddleware, candidate.item)
 
 // 获取各个类型的邀约数量
 router.post('/interview/eachCount', isUser, multipartMiddleware, interview.eachCount)

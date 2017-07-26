@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <card title="候选人简历填写" ref="card">
+    <card title="候选人简历详情" ref="card">
       <div class="detail-form">
         <validate-input
           v-for="(val, key) in param" 

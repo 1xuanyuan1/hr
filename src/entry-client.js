@@ -41,7 +41,13 @@ router.onReady(() => {
     }
     Promise.all(activated.map(c => {
       if (c.asyncData) {
-        return c.asyncData({ store, route: to })
+        return c.asyncData({ store, route: to }).catch((err) => {
+          if (err && err.code === -400) { // 若未登录则跳到登录页
+            router.push('/login')
+          } else { // 其他错误直接抛出异常
+            Promise.reject(err)
+          }
+        })
       }
     })).then(next).catch(next)
   })

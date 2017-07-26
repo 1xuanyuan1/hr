@@ -22,7 +22,6 @@ const template = fs.readFileSync(resolve('./src/index.template.html'), 'utf-8')
 
 // 引入 mongoose 相关模型
 require('./server/models/candidate')
-require('./server/models/candidate-detail')
 require('./server/models/interview')
 
 // 引入 api 路由
