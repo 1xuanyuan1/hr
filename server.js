@@ -73,7 +73,7 @@ app.use(favicon('./public/logo.png'))
 app.use('/dist', serve('./dist', true))
 app.use('/public', serve('./public', true))
 app.use('/manifest.json', serve('./manifest.json', true))
-// app.use('/service-worker.js', serve('./dist/service-worker.js'))
+app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
 // body 解析中间件
 app.use(bodyParser.json())

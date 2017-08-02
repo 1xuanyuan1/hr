@@ -1,9 +1,13 @@
 {
-  "name": "Vue Server-Side Rendering",
-  "short_name": "Vue SSR",
+  "name": "HR小工具",
+  "short_name": "HR小工具",
   "icons": [{
-      "src": "/public/logo.png",
+      "src": "/public/logo_120x120.png",
       "sizes": "120x120",
+      "type": "image/png"
+    },{
+      "src": "/public/logo_144x144.png",
+      "sizes": "144x144",
       "type": "image/png"
     }],
   "start_url": "/",
