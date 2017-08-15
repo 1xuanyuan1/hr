@@ -76,6 +76,10 @@ export default {
     info: {
       type: Array,
       default: () => null
+    },
+    isHome: { // 是否是首页
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -99,6 +103,18 @@ export default {
     list () {
       if (this.hasInfo) return this.info
       return this.data.list || []
+    },
+    updateAction () {
+      if (this.isHome) {
+        return [
+          this.$store.dispatch('home/getHomeInfo', {})
+        ]
+      } else {
+        return [
+          this.$store.dispatch('interview/getList', {status: this.status}),
+          this.$store.dispatch('interview/getEachCount', {})
+        ]
+      }
     }
   },
   data () {
@@ -145,11 +161,10 @@ export default {
     addEvaluation () {
       this.$api.post('interview/updateStatus', this.param).then((req) => {
         this.$openMessage({title: req.message})
-        Promise.all([
-          this.$store.dispatch('interview/getList', {status: this.status}),
-          this.$store.dispatch('interview/getEachCount')
-        ])
-        this.$refs.evaluationModal.close()
+        Promise.all(this.updateAction).then(() => {
+          this.param = {}
+          this.$refs.evaluationModal.close()
+        })
       })
     }
   }

@@ -157,3 +157,35 @@ input,textarea,.input,.textarea{
     }
   }
 }
+
+/* eleme 组件 */
+.el-input__icon{
+  font-size: 12px;
+  width: 35px;
+}
+.el-input__inner{
+  height: 36px;
+  font-size: 14px;
+  line-height: 30px;
+}
+.el-cascader__label{
+  font-size: 14px;
+  line-height: 38px;
+}
+.el-date-editor.el-input{
+  width: 193px;
+}
+.el-date-editor--daterange.el-input{
+  width: 250px;
+}
+.el-select .el-input .el-input__icon{
+  font-size: 12px;
+  line-height: 16px;
+}
+.el-date-range-picker .el-picker-panel__body {
+  min-width: 513px;
+}
+.el-date-table {
+  font-size: 12px;
+  min-width: 224px;
+}

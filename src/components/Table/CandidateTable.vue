@@ -105,12 +105,12 @@ export default {
     updateAction () {
       if (this.isHome) {
         return [
-          this.$store.dispatch('home/getHomeInfo')
+          this.$store.dispatch('home/getHomeInfo', {})
         ]
       } else {
         return [
           this.$store.dispatch('candidate/getList', {invitation: false}),
-          this.$store.dispatch('interview/getEachCount')
+          this.$store.dispatch('interview/getEachCount', {})
         ]
       }
     }

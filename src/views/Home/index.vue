@@ -7,7 +7,7 @@
       <candidate-table :data="communication" isHome></candidate-table>
     </card>
     <card title="今日待面试">
-      <interview-table :info="pending"></interview-table>
+      <interview-table :info="pending" isHome></interview-table>
     </card>
   </div>
 </template>
